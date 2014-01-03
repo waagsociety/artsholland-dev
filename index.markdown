@@ -31,21 +31,21 @@ title: "Welcome to the Arts Holland platform"
     </a>
   </li>
   <li class="gray more">
-    <a href="{{ site.baseurl }}api#rest">
-      <h2>API</h2>
-      <p>A REST API is available to access the most important parts of the Arts Holland semantic Open Linked Database.</p>
+    <a href="{{ site.baseurl }}api#sparql">
+      <h2>SPARQL Endpoint</h2>
+      <p>You can use SPARQL, the query language for RDF data, to access the Linked Open Data from the Arts Holland database.</p>
     </a>
   </li>
   <li class="gray more">
-    <a href="{{ site.baseurl }}api#sparql">
-      <h2>SPARQL Endpoint</h2>
-      <p>You can use SPARQL, a query language for RDF data, to query the Linked Open Data from the Arts Holland database.</p>
+    <a href="{{ site.baseurl }}api#rest">
+      <h2>API</h2>
+      <p>A easy to use REST API is available to access the most important parts of the Arts Holland semantic Open Linked Database.</p>
     </a>
   </li>
   <li class="gray more">
     <a href="{{ site.baseurl }}tutorial">
       <h2>Tutorial</h2>
-      <p>SPARQL tutorial</p>
+      <p>The interactive SPARQL tutorial will guide you through the Arts Holland data, data model and the SPARQL queries you can use to access all the data.</p>
     </a>
   </li>
 </ul>

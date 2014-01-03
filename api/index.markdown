@@ -6,16 +6,98 @@ active: api
 
 # API
 
-blablabla REST API, SPARQL
-Tutoriial!!
+This discribes the Arts Holland API. Arts Holland offers both a [SPARQL endpoint](#sparql) and a [REST API](#rest).
+
+<a name="sparql"></a>
+## SPARQL
+
+All Arts Holland data can be accessed using SPARQL, a query language for RDF data. By submitting SPARQL queries to the SPARQL endpoint, you can retrieve exactly the data you need. More information about SPARQL is found in the [W3C SPARQL specification](http://www.w3.org/TR/rdf-sparql-query/).
+
+The SPARQL endpoint is [http://api.artsholland.com/sparql](http://api.artsholland.com/sparql).
+
+### RDF vocabulary
+
+An [RDF vocabulary is available](http://api.artsholland.com/vocabulary/1.0/artsholland.rdf) for in-depth information about the Arts Holland data model. Also, a basic description of the Arts Holland data model can be found in the [REST API documentation](#rest) below.
+
+### Tutorial
+
+Besided this document, you can use the [interactive SPARQL tutorial]({{ site.baseurl }}tutorial) to guide you through the Arts Holland data, data model and the SPARQL queries you can use to access all the data.
+
+### SPARQL requests
+
+SPARQL queries can be submitted to the database server by doing a `GET` or `POST` request to `/sparql` and URL encoding the SPARQL query in the `query` parameter.
+
+Make sure to set the `Content-Type` header to `application/x-www-form-urlencoded` and the `Accept` header to a media type from the table in the next section.
+
+### Response formats
+
+You can select one of the response data formats by setting the `Accept` header to the appropriate media type, or by appending an file extension to the request.
+
+| Response                         | Extension | Accept header
+|:---------------------------------|:----------|:---------------------------------|
+| SPARQL Query Results XML Format  | `.rdf`    | `application/sparql-results+xml`
+| SPARQL Query Results JSON Format | `.json`   | `application/sparql-results+json`
+| SPARQL Query Results CSV         | `.csv`    | `text/csv`
+| SPARQL browser                   |           | `text/html`
+
+If you want to view the result in your browser, you can overwrite the response media type to `text/html` by specifying the request parameter `plaintext=true`.
+
+### SPARQL browser
+
+Arts Holland also provides a web-based SPARQL browser. You can use this browser to test SPARQL queries or just to get an impression about the data available in the Arts Holland database.
+
+### RDF namespaces
+
+The SPARQL browser automatically appends a set of default RDF namespace prefixes to all submitted SPARQL queries, something that you have to do yourself when doing direct `GET` or `POST` requests. Alternatively, you can rewrite your queries and use full URIs instead of namespaced ones.
+
+For example, see the two following queries. With namespaces:
+
+    PREFIX ah: <http://purl.org/artsholland/1.0/>
+    PREFIX dc: <http://purl.org/dc/terms/>
+    SELECT ?venue ?title {  
+      ?venue a ah:Venue ;
+        dc:title ?title .
+    } LIMIT 10
+
+Without namespaces:
+
+    SELECT ?venue ?title {  
+      ?venue a <http://purl.org/artsholland/1.0/Venue> ;
+        <http://purl.org/dc/terms/title> ?title .
+    } LIMIT 10
+
+### Example request
+
+The following query, for example, retrieves the URIs and English titles of 25 venues in Amsterdam from the Arts Holland database.
+
+    SELECT DISTINCT ?venue ?title
+    WHERE { 
+      ?venue a ah:Venue .
+      ?venue dc:title ?title .
+      ?venue ah:locationAddress ?address .
+      ?address vcard:locality "Amsterdam" . 
+      FILTER(langMatches(lang(?title), "en"))
+    } ORDER BY ?venue
+    LIMIT 25
+
+You can [paste this query in the Arts Holland SPARQL browser](http://api.artsholland.com/sparql?query=SELECT+DISTINCT+%3Fvenue+%3Ftitle%0D%0AWHERE+%7B+%0D%0A%09%3Fvenue+a+ah%3AVenue+.%0D%0A%09%3Fvenue+dc%3Atitle+%3Ftitle+.%0D%0A%09%3Fvenue+ah%3AlocationAddress+%3Faddress+.%0D%0A%09%3Faddress+vcard%3Alocality+%22Amsterdam%22+.+%0D%0A%09FILTER%28langMatches%28lang%28%3Ftitle%29%2C+%22en%22%29%29%0D%0A%7D+ORDER+BY+%3Fvenue%0D%0ALIMIT+25&selectoutput=browse), or directly do a `GET` or `POST` request to the SPARQL endpoint. In the latter case, don’t forget to add the following namespace prefixes:
+
+    PREFIX ah: <http://purl.org/artsholland/1.0/>
+    PREFIX dc: <http://purl.org/dc/terms/>
+    PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+
+### Full text search
+
+You can use the [full text search functionality](https://dev.opensahara.com/projects/useekm/wiki/IndexingSail#Full-Text-Search) of the [uSeekM library](https://dev.opensahara.com/projects/useekm) to do a full text search in the Arts Holland database. uSeekM text search currently only indexes `dc:description` and `dc:title` properties.
+
+### Geo-spatial search
+
+The uSeekM library is also used to add geo-spatial computations and indexing its database. This functionality can be used in all SPARQL queries submitted to the Arts Holland SPARQL endpoint. More documentation can be found in the [uSeekM wiki](https://dev.opensahara.com/projects/useekm/wiki/IndexingSail#GeoSPARQL).
 
 <a name="rest" ></a>
 ##  REST API
 
-A REST API is available to access the most important parts of the Arts Holland semantic Open Linked Database.
-
-Accessing this data using the SPARQL endpoint provides the most flexibility, but its query language and response formats might sometimes be too complex and overwhelming. For simplicity’s sake, Arts Holland also provides a [REST API](#rest).
-Endpoint
+Accessing Arts Holland using the SPARQL endpoint provides the most flexibility, but its query language and response formats might sometimes be too complex and overwhelming. Therefore, Arts Holland also provides a easy to use REST API with which you can access the most important parts of the Arts Holland semantic Open Linked Database.
 
 The REST API endpoint is [http://api.artsholland.com/rest](http://api.artsholland.com/rest).
 
@@ -27,24 +109,25 @@ The objects returned by the REST API are described below in short.
 
 #### Main elements
 
-| Element                             | Description |
-|:------------------------------------|:------------|
-| Production                          | A play, a movie, a concert, an exhibition, a lecture, etc. A production can be performed multiple times, and so can be be hosted by multiple events and venues.
-| Event                               | A instance of a production at a specific location and time.
-| Venue                               | A physical location where events take place.
+| Element      | Description |
+|:-------------|:------------|
+| `Production` | A play, a movie, a concert, an exhibition, a lecture, etc. A production can be performed multiple times, and so can be be hosted by multiple events and venues.
+| `Event`      | A instance of a production at a specific location and time.
+| `Venue`      | A physical location where events take place.
 
 Events, venues and productions are identified by a CIDN number managed by the Nederlands Uitburo.
 
 #### Other elements
 
-Element   Description
-Room   Child element of a venue, in which events can take place. A venue can have multiple rooms. Events can be held in one or more rooms of a specific venue.
-Address   Child element of a venue, holds address information.
-Attachment   Child element of both venues and events. An attachment holds information about images, movies or documents linked to the venue or event.
-Offering   Child element of an event. Information about tickets; an event can have multiple offers.
-PriceSpecification   Child element of an offer. Information about price and currency.
-Genre   Productions are categorized by genre. Examples are dance, documentary, exhibition and musical.
-VenueType   Venues are categorized by type. Museums, cinemas and theaters, for example, all have a different VenueType.
+| Element               | Description |
+|:----------------------|:------------|
+| `Room`                | Child element of a venue, in which events can take place. A venue can have multiple rooms. Events can be held in one or more rooms of a specific venue.
+| `Address`             | Child element of a venue, holds address information.
+| `Attachment`          | Child element of both venues and events. An attachment holds information about images, movies or documents linked to the venue or event.
+| `Offering`            | Child element of an event. Information about tickets; an event can have multiple offers.
+| `PriceSpecification`  | Child element of an offer. Information about price and currency.
+| `Genre`               | Productions are categorized by genre. Examples are dance, documentary, exhibition and musical.
+| `VenueType`           | Venues are categorized by type. Museums, cinemas and theaters, for example, all have a different VenueType.
 
 ### URI structure
 
@@ -179,91 +262,3 @@ Again, this parameter only works for JSON requests.
 | All venues within 2.5 km. of Dam Square, Amsterdam                       | [`/rest/venue.json?nearby=POINT(4.8931 52.3729)&distance=2500`](http://api.artsholland.com/rest/venue.json?nearby=POINT%284.8931 52.3729%29&distance=2500)
 | All events that take place after Januari 1st, 2014                       | [`/rest/event.json?after=2012-08-02&apiKey=9cbce178ed121b61a0797500d62cd440`](http://api.artsholland.com/rest/event.json?after=2014-01-01&apiKey=9cbce178ed121b61a0797500d62cd440)
 | The address of the Nederlands Muziek Instituut in The Hague              | [`/rest/venue/010f8e45-5726-48db-b0a7-aa95abc98432/address.json`](http://api.artsholland.com/rest/venue/010f8e45-5726-48db-b0a7-aa95abc98432/address.json)
-
-<a name="sparql"></a>
-## SPARQL
-
-You can use SPARQL, a query language for RDF data, to query the Linked Open Data from the Arts Holland database.
-
-More information about SPARQL is found in the [W3C SPARQL specification](http://www.w3.org/TR/rdf-sparql-query/).
-
-### Endpoint
-
-The SPARQL endpoint is http://api.artsholland.com/sparql.
-
-### RDF vocabulary
-
-The Arts Holland RDF vocabulary can be found on http://api.artsholland.com/vocabulary/1.0/artsholland.rdf. Also, a basic description of the Arts Holland data model can be found in the [REST API documentation](#rest) above.
-
-### Tutorial
-
-### SPARQL requests
-
-SPARQL queries can be submitted to the database server by doing a `GET` or `POST` request to `/sparql` and URL encoding the SPARQL query in the `query` parameter.
-
-Make sure to set the `Content-Type` header to `application/x-www-form-urlencoded` and the `Accept` header to a media type from the table in the next section.
-
-### Response formats
-
-You can select one of the response data formats by setting the `Accept` header to the appropriate media type, or by appending an file extension to the request.
-
-| Response                         | Extension | Accept header
-|:---------------------------------|:----------|:---------------------------------|
-| SPARQL Query Results XML Format  | `.rdf`    | `application/sparql-results+xml`
-| SPARQL Query Results JSON Format | `.json`   | `application/sparql-results+json`
-| SPARQL Query Results CSV         | `.csv`    | `text/csv`
-| SPARQL browser                   |           | `text/html`
-
-If you want to view the result in your browser, you can overwrite the response media type to `text/html` by specifying the request parameter `plaintext=true`.
-
-### SPARQL browser
-
-Arts Holland also provides a web-based SPARQL browser. You can use this browser to test SPARQL queries or just to get an impression about the data available in the Arts Holland database.
-
-### RDF namespaces
-
-The SPARQL browser automatically appends a set of default RDF namespace prefixes to all submitted SPARQL queries, something that you have to do yourself when doing direct `GET` or `POST` requests. Alternatively, you can rewrite your queries and use full URIs instead of namespaced ones.
-
-For example, see the two following queries. With namespaces:
-
-    PREFIX ah: <http://purl.org/artsholland/1.0/>
-    PREFIX dc: <http://purl.org/dc/terms/>
-    SELECT ?venue ?title {  
-      ?venue a ah:Venue ;
-        dc:title ?title .
-    } LIMIT 10
-
-Without namespaces:
-
-    SELECT ?venue ?title {  
-      ?venue a <http://purl.org/artsholland/1.0/Venue> ;
-        <http://purl.org/dc/terms/title> ?title .
-    } LIMIT 10
-
-### Example request
-
-The following query, for example, retrieves the URIs and English titles of 25 venues in Amsterdam from the Arts Holland database.
-
-    SELECT DISTINCT ?venue ?title
-    WHERE { 
-      ?venue a ah:Venue .
-      ?venue dc:title ?title .
-      ?venue ah:locationAddress ?address .
-      ?address vcard:locality "Amsterdam" . 
-      FILTER(langMatches(lang(?title), "en"))
-    } ORDER BY ?venue
-    LIMIT 25
-
-You can [paste this query in the Arts Holland SPARQL browser](http://api.artsholland.com/sparql?query=SELECT+DISTINCT+%3Fvenue+%3Ftitle%0D%0AWHERE+%7B+%0D%0A%09%3Fvenue+a+ah%3AVenue+.%0D%0A%09%3Fvenue+dc%3Atitle+%3Ftitle+.%0D%0A%09%3Fvenue+ah%3AlocationAddress+%3Faddress+.%0D%0A%09%3Faddress+vcard%3Alocality+%22Amsterdam%22+.+%0D%0A%09FILTER%28langMatches%28lang%28%3Ftitle%29%2C+%22en%22%29%29%0D%0A%7D+ORDER+BY+%3Fvenue%0D%0ALIMIT+25&selectoutput=browse), or directly do a `GET` or `POST` request to the SPARQL endpoint. In the latter case, don’t forget to add the following namespace prefixes:
-
-    PREFIX ah: <http://purl.org/artsholland/1.0/>
-    PREFIX dc: <http://purl.org/dc/terms/>
-    PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
-
-### Full text search
-
-You can use the [full text search functionality](https://dev.opensahara.com/projects/useekm/wiki/IndexingSail#Full-Text-Search) of the [uSeekM library](https://dev.opensahara.com/projects/useekm) to do a full text search in the Arts Holland database. uSeekM text search currently only indexes `dc:description` and `dc:title` properties.
-
-### Geo-spatial search
-
-The uSeekM library is also used to add geo-spatial computations and indexing its database. This functionality can be used in all SPARQL queries submitted to the Arts Holland SPARQL endpoint. More documentation can be found in the [uSeekM wiki](https://dev.opensahara.com/projects/useekm/wiki/IndexingSail#GeoSPARQL).
