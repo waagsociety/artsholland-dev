@@ -16,7 +16,7 @@ html, body { height: 100%; }
 body {
   background-color: white;
   font-family: Georgia,"Times New Roman",Times,"Bitstream Vera Serif",serif;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.6em;
 }
 
@@ -306,14 +306,14 @@ article .page {
   width: 768px;
 }
 
-table {
+article .page table {
   width: 100%;
   border-collapse: collapse;
   background-color: rgb(233, 242, 245);  
 }
 
-table tr td,
-table tr th {
+article .page table tr td,
+article .page table tr th {
   padding: 5px 8px;
   border-bottom-style: solid;
   border-bottom-color: white;
@@ -321,6 +321,6 @@ table tr th {
   vertical-align: top;
 }
 
-table tr th {
+article .page table tr th {
   border-bottom-width: 2px;
 }
