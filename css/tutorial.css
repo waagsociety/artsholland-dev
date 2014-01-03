@@ -1,0 +1,145 @@
+h1, h2, 
+svg, #doc td {
+	font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+}
+
+a, a:visited {
+  color: black;
+}
+
+.docitem p {
+  width: auto;
+}
+
+.docitem table a {
+  text-decoration: none;
+}
+
+.docitem table a:hover {
+  text-decoration: underline;
+}
+
+#vis, #doc {
+	position: absolute;
+	top: 130px;
+  bottom: 0;
+}
+
+#vis {
+	left: 0;
+  right: 50%;
+  overflow: hidden;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+code, 
+.CodeMirror {
+   background-color: white;
+   padding: 3px;
+}
+
+code {
+  color: #770088;
+}
+
+a:visited code,
+a code {
+  text-decoration: none;
+}
+
+#doc {
+	left: 50%;
+  right: 0;
+  overflow: auto;
+  padding: 20px;
+}
+
+#doc ul {
+  margin-left: 2em;
+  list-style-type:circle
+}
+
+#doc table td {
+  vertical-align: middle;
+  padding: 3px;
+}
+
+#doc ol li.docitem {
+ padding-bottom: 10px;
+}
+
+/*#doc ol li.docitem:not(:last-child) {
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  border-bottom-color: rgba(0,171,230,0.3);
+  }*/
+
+#doc ol li:first-child h2 {
+  margin-top: 0;
+}
+
+#doc ol {
+	/*padding-right: 2em;*/
+}
+
+#doc > ol {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#doc li.docitem {
+  line-height: 135%
+}
+
+#doc li.docitem .result-links {
+  float: right;
+}
+
+#doc li.docitem .result-links,
+#doc li.docitem .result-links a {
+  color: #888;
+  font-size: 85%;
+}
+
+.subtitle {
+  color: #888;
+  fill: #888;
+  font-size: 85%;
+}
+
+#vis .title {
+  font-size: 120%;
+}
+
+/* SVG */
+
+#vis svg {
+  width: 100%;
+  height: 100%;
+  overflow: scroll;  
+}
+
+.link {
+	fill: none;
+	stroke: rgba(200, 200, 200, .8);
+	stroke-width: 1px;
+}
+
+#triangle,
+#circle-marker,
+#circle {
+  fill: #00ABE6;
+}
+
+#spinner line {
+  fill: none;
+  stroke-width: 10;
+  stroke: #00ABE6;
+  stroke-miterlimit: 10;  
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
