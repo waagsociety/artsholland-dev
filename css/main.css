@@ -118,17 +118,22 @@ header {
 
 header nav {
   color: white;
-  height: 130px;
+  height: 99px;
   margin: 0 auto;
   width: 960px;
 }
 
 #logo {
- float: left;
-  height: 145px;
+  float: left;
   margin: 0;
   padding: 0;
   width: 192px;
+  height: 80px;
+  top: 9px;
+  position: relative;  
+  background-image: url("{{ site.baseurl }}images/artsholland.png");  
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 header ul {
@@ -137,10 +142,10 @@ header ul {
 
 header li {
   float: left;
-  height: 145px;
   margin: 0;
   padding: 0;
   width: 192px;
+  height: 114px;
 }
 
 header li a {
@@ -148,10 +153,10 @@ header li a {
   border-left: 1px solid white;
   display: block;
   font-size: 14.3px;
-  height: 80px;
+  height: 66px;
   line-height: 14.3px;
   margin-right: 0;
-  margin-top: 20px;
+  margin-top: 12px;
   padding: 5px 15px;
   text-transform: uppercase;
   width: 161px;
