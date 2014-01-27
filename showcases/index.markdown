@@ -14,7 +14,7 @@ The Museum App offers interactive tours with cultural experiences on your smart 
 
 ## Arts Holland Next - CitySDK
 
-The European project CitySDK offers a structural solution for disclosing real-time open data. By joining this platform, the Dutch Arts Holland data can be linked to tourist and cultural information in other big European cities. An example of the data on the map can be found [here].(http://citysdk.waag.org/map#nodes?layer=rce.rijksmonumenten,amsterdam.hotels,bag.vbo)
+The European project CitySDK offers a structural solution for disclosing real-time open data. By joining this platform, the Dutch Arts Holland data can be linked to tourist and cultural information in other big European cities.
 
 [http://www.citysdk.eu](http://www.citysdk.eu)
 
