@@ -1,5 +1,7 @@
 name: Arts Holland Development
-#baseurl: /
-#redcarpet:
-#  extensions: ["tables"]
-baseurl: /artsholland-dev
+pygments: true
+baseurl: /artsholland-dev/
+markdown: redcarpet
+redcarpet:
+  extensions: ["tables"]
+ #baseurl: /artsholland-dev/
