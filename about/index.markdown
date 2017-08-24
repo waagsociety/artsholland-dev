@@ -4,6 +4,10 @@ title: About
 active: about
 ---
 
+
+# Unfortunately the source of the data that the Arts Holland platform was built on dried up. The platform & API's are thus no longer online..
+
+
 # About Arts Holland
 
 Arts Holland is a consortium of three leading players in the field of arts, culture, new media and tourism. The institutes part of this consortium are the [Netherlands Board of Tourism & Conventions](http://www.nbtc.nl/corporate/en/), [Netherlands Uitburo](http://www.uitburo.nl/) and [Waag Society](http://www.waag.org/).
