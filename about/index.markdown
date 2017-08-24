@@ -5,7 +5,7 @@ active: about
 ---
 
 
-# Unfortunately the source of the data that the Arts Holland platform was built on dried up. The platform & API's are thus no longer online..
+### Unfortunately the source of the data that the Arts Holland platform was built on dried up. The platform & API's are thus no longer online..
 
 
 # About Arts Holland
